@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>pictionary game</title>
+  </head>
+  <body>
+    <div class="game">
+      <div class="chat">
+        <div class="chat-message-container">
+          <div class="chat-message"><strong>some player</strong>: a guess</div>
+          <div class="chat-message"><strong>some player</strong>: a guess</div>
+          <div class="chat-message"><strong>some player</strong>: a guess</div>
+          <div class="chat-message"><strong>some player</strong>: a guess</div>
+          <div class="chat-message chat-message--correct"><strong>some player</strong> guessed the word!</div>
+          <div class="chat-message"><strong>some player</strong>: a guess</div>
+          <div class="chat-message"><strong>some player</strong>: a guess</div>
+        </div>
+        <textarea class="chat-input" rows="2" placeholder="Make a guess..."></textarea>
+      </div>
+      <div class="game-canvas-container">
+        <div class="game-status">
+          <h1><strong>Someone</strong> is drawing something...</h1>
+          <h2>Can you guess what it is?</h2>
+        </div>
+        <canvas class="game-canvas" width="800" height="600" tabindex="0"></canvas>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+  </body>
+</html>
