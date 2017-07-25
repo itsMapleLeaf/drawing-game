@@ -3,6 +3,7 @@ import { Point } from './point'
 export class Line {
   points = [] as Point[]
   color = 'black'
+  width = 6
 
   addPoint(point: Point) {
     this.points.push(point)
@@ -17,6 +18,7 @@ export class Line {
 
     graphics.save()
     graphics.strokeStyle = this.color
+    graphics.lineWidth = this.width
     graphics.lineJoin = 'round'
     graphics.lineCap = 'round'
     graphics.beginPath()
@@ -50,8 +52,6 @@ export class DrawingBoard {
   }
 
   render(graphics: CanvasRenderingContext2D) {
-    graphics.strokeStyle = 'white'
-    graphics.lineWidth = 6
     graphics.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height)
     for (const line of this.lines) {
       line.render(graphics)
