@@ -1,8 +1,10 @@
-import { Point } from './point'
-import { DrawingBoard } from './drawing-board'
-import * as io from 'socket.io-client'
 import 'normalize.css/normalize.css'
 import './styles.css'
+
+import * as io from 'socket.io-client'
+import { Point } from './point'
+import { DrawingBoard } from './drawing-board'
+import * as chat from './chat'
 
 function getCanvas() {
   const canvas = document.querySelector('.game-canvas')
@@ -38,9 +40,7 @@ function init() {
   })
 
   const socket = io('localhost:3000')
-
-  socket.send('hi')
-  socket.send('dicks')
+  chat.init(socket)
 }
 
 init()

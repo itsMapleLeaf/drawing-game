@@ -13,12 +13,9 @@ app.use('/', express.static(resolve(__dirname, 'public')))
 io.on('connection', socket => {
   console.log(`Connection from ${socket.id}`)
 
-  socket.on('message', params => {
-    if (params === 'hi') {
-      console.log('someone said hi :D')
-    } else {
-      console.log('¯\\_(ツ)_/¯')
-    }
+  socket.on('chat-message', ({ message }: { message: string }) => {
+    console.log('Message received:', message)
+    io.emit('chat-message', { message, sender: socket.id })
   })
 })
 
