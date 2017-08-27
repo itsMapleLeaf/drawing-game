@@ -1,9 +1,15 @@
 import * as io from 'socket.io-client'
 import { Point } from './point'
 import { DrawingBoard } from './drawing-board'
-import * as chat from './chat'
+import { Chat } from './chat'
 
 export class App {
+  canvas = this.getCanvas()
+  graphics = this.canvas.getContext('2d') as CanvasRenderingContext2D
+  drawingBoard = new DrawingBoard()
+  socket = io('localhost:3000')
+  chat = new Chat(this.socket)
+
   getCanvas() {
     const canvas = document.querySelector('.game-canvas')
     if (canvas instanceof HTMLCanvasElement) return canvas
@@ -11,33 +17,28 @@ export class App {
   }
 
   init() {
-    const canvas = this.getCanvas()
-    const graphics = canvas.getContext('2d') as CanvasRenderingContext2D
-    const drawingBoard = new DrawingBoard()
+    this.chat.init()
 
-    canvas.addEventListener('pointerdown', event => {
-      drawingBoard.beginDrawing(new Point(event.offsetX, event.offsetY))
+    this.canvas.addEventListener('pointerdown', event => {
+      this.drawingBoard.beginDrawing(new Point(event.offsetX, event.offsetY))
     })
 
     window.addEventListener('pointerup', () => {
-      drawingBoard.finishDrawing()
+      this.drawingBoard.finishDrawing()
     })
 
-    canvas.addEventListener('pointermove', event => {
-      if (drawingBoard.isPenDown) {
-        drawingBoard.updateCurrentLine(new Point(event.offsetX, event.offsetY))
-        drawingBoard.render(graphics)
+    this.canvas.addEventListener('pointermove', event => {
+      if (this.drawingBoard.isPenDown) {
+        this.drawingBoard.updateCurrentLine(new Point(event.offsetX, event.offsetY))
+        this.drawingBoard.render(this.graphics)
       }
     })
 
-    canvas.addEventListener('keydown', event => {
+    this.canvas.addEventListener('keydown', event => {
       if (event.ctrlKey && event.keyCode === 90) {
-        drawingBoard.undo()
-        drawingBoard.render(graphics)
+        this.drawingBoard.undo()
+        this.drawingBoard.render(this.graphics)
       }
     })
-
-    const socket = io('localhost:3000')
-    chat.init(socket)
   }
 }
